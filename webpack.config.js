@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -29,13 +29,28 @@ module.exports = {
       {
         test: /\.(s*)css$/,
         use: [
-          { 
-            loader: MiniCssExtractPlugin.loader 
+          {
+            loader: MiniCssExtractPlugin.loader,
           },
           'css-loader',
           'sass-loader',
         ],
-      }, 
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot|svg|bin|png|gif|jpg)(\?v=\d+\.\d+\.\d+)?$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              limit: 1024,
+              name: 'assets/[hash].[ext]',
+              publicPath: 'dist/assets/',
+              outputPath: 'dist/assets/',
+            },
+          },
+        ],
+      },
     ],
   },
   plugins: [
